@@ -1,12 +1,17 @@
 import Link from 'next/link';
 
-export default function Header({ name }) {
+export default function Header({ name, tagline }) {
   return (
-    <header className="pt-20 pb-12">
-      <div className="block w-12 h-12 mx-auto mb-4 rounded-full bg-conic-180 from-gradient-3 from-0% to-gradient-4 to-100%" />
-      <p className="text-2xl text-center dark:text-white">
-        <Link href="/">{name}</Link>
-      </p>
+    <header className="mb-16">
+      <h1 className="text-base font-medium text-fg">
+        <Link href="/" className="hover:text-accent">
+          <span className="text-muted">~/</span>
+          {name.toLowerCase().replace(/\s+/g, '-')}
+        </Link>
+      </h1>
+      {tagline && (
+        <p className="mt-1 text-sm text-muted">{tagline}</p>
+      )}
     </header>
   );
 }

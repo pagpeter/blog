@@ -2,28 +2,168 @@
 @plugin '@tailwindcss/typography';
 
 @theme static {
-  --color-primary: var(--theme-primary);
-  --color-gradient-1: var(--theme-gradient-1);
-  --color-gradient-2: var(--theme-gradient-2);
-  --color-gradient-3: var(--theme-gradient-3);
-  --color-gradient-4: var(--theme-gradient-4);
-  --font-primary: var(--theme-headings);
-  --font-secondary: var(--theme-body);
+  --color-bg: var(--theme-bg);
+  --color-fg: var(--theme-fg);
+  --color-muted: var(--theme-muted);
+  --color-faint: var(--theme-faint);
+  --color-accent: var(--theme-accent);
+  --font-mono: var(--theme-mono);
 }
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 @layer base {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--font-primary);
+  html {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
   }
 
   body {
-    font-family: var(--font-secondary);
+    font-family: var(--font-mono);
+    font-feature-settings: 'ss01', 'ss02', 'zero';
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--color-fg);
+    color: var(--color-bg);
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  a:hover {
+    color: var(--color-accent);
+  }
+}
+
+@layer components {
+  .prose-terminal {
+    color: var(--color-fg);
+    max-width: none;
+    font-family: var(--font-mono);
+    line-height: 1.75;
+  }
+
+  .prose-terminal :where(h1, h2, h3, h4, h5, h6) {
+    color: var(--color-fg);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-top: 2.25em;
+    margin-bottom: 0.75em;
+  }
+
+  .prose-terminal :where(h2) {
+    font-size: 1.25rem;
+  }
+
+  .prose-terminal :where(h2)::before {
+    content: '# ';
+    color: var(--color-muted);
+  }
+
+  .prose-terminal :where(h3) {
+    font-size: 1.1rem;
+  }
+
+  .prose-terminal :where(h3)::before {
+    content: '## ';
+    color: var(--color-muted);
+  }
+
+  .prose-terminal :where(p) {
+    margin: 1em 0;
+  }
+
+  .prose-terminal :where(a) {
+    color: var(--color-fg);
+    text-decoration: underline;
+    text-decoration-color: var(--color-muted);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: text-decoration-color 0.15s ease;
+  }
+
+  .prose-terminal :where(a:hover) {
+    text-decoration-color: var(--color-fg);
+    color: var(--color-fg);
+  }
+
+  .prose-terminal :where(strong) {
+    color: var(--color-fg);
+    font-weight: 600;
+  }
+
+  .prose-terminal :where(code):not(:where(pre code)) {
+    background: var(--color-faint);
+    color: var(--color-fg);
+    padding: 0.1em 0.35em;
+    border-radius: 2px;
+    font-size: 0.92em;
+  }
+
+  .prose-terminal :where(code)::before,
+  .prose-terminal :where(code)::after {
+    content: '';
+  }
+
+  .prose-terminal :where(pre) {
+    background: var(--color-faint);
+    border: 1px solid var(--color-faint);
+    border-radius: 2px;
+    padding: 1rem 1.1rem;
+    overflow-x: auto;
+    font-size: 0.88em;
+    line-height: 1.55;
+  }
+
+  .prose-terminal :where(pre code) {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+  }
+
+  .prose-terminal :where(blockquote) {
+    border-left: 2px solid var(--color-faint);
+    padding-left: 1rem;
+    color: var(--color-muted);
+    font-style: normal;
+    margin: 1.5em 0;
+  }
+
+  .prose-terminal :where(blockquote p)::before,
+  .prose-terminal :where(blockquote p)::after {
+    content: '';
+  }
+
+  .prose-terminal :where(hr) {
+    border-color: var(--color-faint);
+    margin: 2.5em 0;
+  }
+
+  .prose-terminal :where(ul) {
+    list-style: none;
+    padding-left: 1.25rem;
+  }
+
+  .prose-terminal :where(ul li)::before {
+    content: '— ';
+    color: var(--color-muted);
+    margin-left: -1.25rem;
+    margin-right: 0.5rem;
+  }
+
+  .prose-terminal :where(img) {
+    border-radius: 2px;
+  }
+
+  .prose-terminal :where(table) {
+    font-size: 0.92em;
+  }
+
+  .prose-terminal :where(th, td) {
+    border-color: var(--color-faint);
   }
 }

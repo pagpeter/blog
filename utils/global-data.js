@@ -1,17 +1,21 @@
 export const getGlobalData = () => {
   const name = process.env.BLOG_NAME
     ? decodeURI(process.env.BLOG_NAME)
-    : 'Jay Doe';
+    : 'Peter Pagenstedt';
   const blogTitle = process.env.BLOG_TITLE
     ? decodeURI(process.env.BLOG_TITLE)
-    : 'Next.js Blog Theme';
+    : '';
+  const tagline = process.env.BLOG_TAGLINE
+    ? decodeURI(process.env.BLOG_TAGLINE)
+    : 'notes on software, systems, and captchas';
   const footerText = process.env.BLOG_FOOTER_TEXT
     ? decodeURI(process.env.BLOG_FOOTER_TEXT)
-    : 'All rights reserved.';
+    : '© ' + new Date().getFullYear() + ' peter pagenstedt';
 
   return {
     name,
     blogTitle,
+    tagline,
     footerText,
   };
 };
