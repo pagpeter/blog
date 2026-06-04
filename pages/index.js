@@ -23,7 +23,12 @@ export default function Index({ posts, globalData }) {
       <SEO title={globalData.name} description={globalData.tagline} />
       <Header name={globalData.name} tagline={globalData.tagline} />
       <main className="w-full">
-        <ul className="flex flex-col">
+        {posts.length === 0 ? (
+          <p className="border-y border-faint py-6 text-sm text-muted">
+            <span className="text-muted">{'// '}</span>no articles yet.
+          </p>
+        ) : (
+          <ul className="flex flex-col">
           {posts.map((post) => {
             const slug = post.filePath.replace(/\.mdx?$/, '');
             return (
@@ -63,7 +68,8 @@ export default function Index({ posts, globalData }) {
               </li>
             );
           })}
-        </ul>
+          </ul>
+        )}
       </main>
       <Footer copyrightText={globalData.footerText} />
     </Layout>
