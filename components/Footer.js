@@ -4,6 +4,14 @@ export default function Footer({ copyrightText }) {
       <p>{copyrightText}</p>
       <nav className="flex flex-wrap gap-4">
         <a
+          href="https://peet.ws"
+          className="hover:text-fg"
+          target="_blank"
+          rel="noreferrer"
+        >
+          [peet.ws]
+        </a>
+        <a
           href="https://github.com/pagpeter"
           className="hover:text-fg"
           target="_blank"
