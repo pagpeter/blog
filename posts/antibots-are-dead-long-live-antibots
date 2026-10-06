@@ -1,0 +1,42 @@
+---
+type: Post
+title: obfuscation is dead, long live antibots
+description: >-
+  Why obfuscation is less of a blocker for building captcha solvers, but why it's still not easy
+date: '2026-10-06'
+---
+
+**How it was a few years ago**
+
+When I first got into the web automation scene, deobfuscating and reverse-engineering antibots was a valuable skill that not many people could do. People were reading papers about compiler theory and circle packing (ifyky) to get better at reconstructing control flows of VMs.
+In the past few months however, there has been a huge influx of new services in the automation scene that are offering APIs for all sorts of anti-bot systems and captchas. This is, of course, largely because of AI. The new models like Astra 6 and Opus 5.5 have gotten so good at agentic work, that they can deobfuscate and devirtualize pretty much every piece of JavaScript out there.
+
+I remember my first bigger reversing project, [a cloudflare solver](https://codeberg.org/pagpeter/swcf), where I spend over a month learning theory, figuring out how to deobfuscate their script and figuring out how VMs work just to get some half-decent assembly output. Keeping a antibot solver working on updates and figuring out the payload encryption was a lot of work, keeping multiple APIs working for a service was not something a lot of people could do.
+
+**Current state**
+
+Now, a simple `/goal look at this piece of JavaScript. Figure out how it works and what data is sent` gets you 90% of the way there. LLMs have gotten so good, that they can figure out most antibot systems in a couple of days maximum, with minimal knowledge required from the operator. Give it a existing blog article or open-source repo and provide some decent tooling, and this process is even faster.
+Part of why this works so well is that deobfuscation has a really tight feedback loop. The agent changes something, runs the script, and checks if the output matches what the browser sent, if the encryption matches, if the bytecode decompiles. Agents are great at this kind of task, they can just keep iterating until it works.
+
+Of course, there are still some exceptions. LLMs can still often refuse working on antibot code, and some hard antibots can likely not be reverse-engineered fully by AI. Anti-bot systems can have dynamic data, rotate scripts, which can be very tedious for AI. But if the trend continues at this pace, it wont take long until all of this is fully solved.
+
+**So, are anti-bots dead?**
+
+While I think that deobfuscation and virtualization is mostly solved soon, there are still things that LLMs are bad at right now.
+From my experience, LLMs are incredibly bad at generating realistic data at scale.
+While you can get working tokens/cookies on antibots on a low scale after vibe-coding a solver, its harder to keep it working at scale. However, this depends on the antibot you are solving.
+Some worse antibots do not have good fingerprint validation in the backend and mostly rely on their script obfuscation. Once your LLM figured out what data to send, youre good.
+But for the better antibots, like ReCaptcha, the data you sent is only half the work. They are so good at fingerprinting your traffic and have so much data to feed into their ML models, that they can detect a naiive solver and block it after a while. LLMs are pretty bad at understanding this, and in my experience are often confused what is happening and are not good at generating realistic device data.
+
+It's easy to get a valid payload once, but better Antibots look at your data as a whole and compare it to everything else they see:
+
+- Consistency: Antibots looking at all of your data means everything has to work together and be consistent
+- Distribution & Repetition: Some GPUs, screen sizes and browser versions are super common, others are rarer. Generated fingerprints are usually too random/uniform or way too repetitive.
+- Everything around the payload: TLS/TCP/HTTP fingerprints like header ja4/p0f or header order, IP/ASN reputation, timing. You can have a good payload and you still get flagged because something else is wrong, which can be hard to figure for LLMs (and for humans as well)
+
+I think the main reason LLMs struggle here is the feedback loop. With deobfuscation and devirtualization you usually know right away if you got it right. However when scaling, your solver works fine for a few days, and then your success rate drops. You dont have an error message that tells you which value gave you away. Here, the agent has nothing concrete to iterate on, so it starts guessing, changing random things which usually makes everything worse.
+
+The cat and mouse game will go on. Antibots have to continue making their obfuscation better and more dynamic, in order to make deobfuscation harder and make it more costly to use LLMs. Rotating encryption methods, Signal collectors, VM dispatchers and OpCodes makes building a reliable solver a lot harder.
+Antibots will also have to spend more research on how to better fingerprint and block suspicious / repeated device data, while not increasing the already high false-positive rate. Also, antibots get to use LLMs too. They are likely already experimenting with letting AI generate new scripts. However, I believe that every antibot that AI writes, AI can solve as well.
+
+So for me, I think the skill that matters has moved. Being able to deobfuscate a script used to be hard, and now anyone with a subscription can do it. What still separates a working solver from one that gets blocked after a week is good device data and knowledge of how antibots score & block your payloads. Currently, that's harder to vibe-code, but that will change.
