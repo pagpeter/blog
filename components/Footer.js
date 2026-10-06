@@ -3,6 +3,9 @@ export default function Footer({ copyrightText }) {
     <footer className="mt-24 flex items-center justify-between border-t border-faint pt-6 text-xs text-muted">
       <p>{copyrightText}</p>
       <nav className="flex flex-wrap gap-4">
+        <a href="/rss.xml" className="hover:text-fg">
+          [rss]
+        </a>
         <a
           href="https://peet.ws"
           className="hover:text-fg"

@@ -6,6 +6,7 @@ export default function SEO({ title, description }) {
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta property="og:title" content={title} />
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml" />
     </Head>
   );
 }

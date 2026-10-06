@@ -89,6 +89,8 @@ If setting an environment variable isn't your cup of tea, the defaults can be ch
 
 All posts are stored in `/posts` directory. To make a new post, create a new file with the [`.mdx` extension](https://mdxjs.com/).
 
+The site also serves `/rss.xml` and `/llms.txt`. Each article has a Markdown version at `/posts/<slug>/content.md` and a plain-text alias at `/posts/<slug>/content.txt`; the index and feed update automatically when posts are added. Set `SITE_URL` to the public site origin if the deployment should use a canonical domain in these files. Otherwise, links use the host of the request.
+
 Since the posts are written in `MDX` format you can pass props and components. That means you can use [React components](https://reactjs.org/docs/components-and-props.html) inside your posts to make them more interactive. Learn more about how to do so in the [MDX docs on content](https://mdxjs.com/docs/using-mdx/#components).
 
 https://user-images.githubusercontent.com/3611928/152727802-102ec296-41c8-446d-93ed-922d11187073.mp4
